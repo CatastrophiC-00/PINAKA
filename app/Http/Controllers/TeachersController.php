@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Teacher;
+use App\Section;
 class TeachersController extends Controller
 {
      public function teacher()
@@ -15,6 +16,12 @@ class TeachersController extends Controller
     public function create()
     {
     	return view('teachers.create');
+    }
+     public function edit(Teacher $teacher)
+    {
+        $sections = Section::all();
+        return view('teachers.edit', compact('teacher', 'sections'));
+
     }
 
     public function store()
@@ -28,6 +35,13 @@ class TeachersController extends Controller
     	$teacher->advisory_section = request()->advisory_section;
     	$teacher->save();
 
+        return redirect('/home/teachers');
+    }
+
+    public function update(Teacher $teacher)
+    {
+        $teacher->advisory_section = request()->advisory_section;
+        $teacher->save();
         return redirect('/home/teachers');
     }
 }
